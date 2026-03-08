@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lenora — Video meliora proboque, deteriora sequor</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
+<style>
+  :root {
+    --bg: #002746;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.5);
+    --accent: #7eb8e0;
+    --accent-bright: #a8d4f0;
+    --divider: rgba(255,255,255,0.08);
+    --serif: 'Computer Modern Serif', 'Latin Modern Roman', 'CMU Serif', Georgia, serif;
+    --sans: 'Computer Modern Sans', 'Latin Modern Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ══════════════════════════════════
+     HEADER
+  ══════════════════════════════════ */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.8rem 4rem;
+    border-bottom: 1px solid var(--divider);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 10;
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    text-decoration: none;
+    transition: opacity 0.3s;
+    cursor: pointer;
+  }
+  .logo:hover { opacity: 0.7; }
+
+  .header-nav {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .header-about {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    letter-spacing: 0.03em;
+  }
+  .header-about:hover { color: var(--accent); }
+
+  /* ══════════════════════════════════
+     INDEX / LISTING VIEW
+  ══════════════════════════════════ */
+  #index-view {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 4rem 6rem;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--divider);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+    cursor: pointer;
+  }
+  .entry:nth-child(1) { animation-delay: 0.1s; }
+  .entry:nth-child(2) { animation-delay: 0.25s; }
+  .entry:nth-child(3) { animation-delay: 0.4s; }
+  .entry:nth-child(4) { animation-delay: 0.55s; }
+  .entry:nth-child(5) { animation-delay: 0.7s; }
+  .entry:last-child { border-bottom: none; }
+  .entry:hover .entry-title { color: var(--accent); }
+
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .meta { padding-top: 0.35rem; }
+
+  .meta-author {
+    font-size: 0.82rem;
+    color: var(--text);
+    opacity: 0.85;
+    margin-bottom: 0.15rem;
+  }
+
+  .meta-date {
+    font-size: 0.78rem;
+    color: var(--accent);
+    opacity: 0.9;
+  }
+
+  .entry-title {
+    font-size: 1.65rem;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+    transition: color 0.3s;
+  }
+
+  .entry-desc {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
+    max-width: 680px;
+  }
+
+  /* ══════════════════════════════════
+     ARTICLE / POST VIEW
+  ══════════════════════════════════ */
+  #post-view {
+    display: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 4rem 6rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .post-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 1.25;
+    color: var(--accent);
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--divider);
+    max-width: 85%;
+  }
+
+  .post-layout {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 3rem;
+  }
+
+  .post-sidebar {
+    padding-top: 0.2rem;
+  }
+
+  .post-sidebar .meta-author {
+    font-size: 0.85rem;
+    color: var(--text);
+    opacity: 0.85;
+    margin-bottom: 0.2rem;
+  }
+
+  .post-sidebar .meta-date {
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  .post-tags a {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(255,255,255,0.3);
+    transition: text-decoration-color 0.2s, color 0.2s;
+    cursor: pointer;
+  }
+  .post-tags a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+  .post-tags .sep {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .post-body {
+    max-width: 720px;
+  }
+
+  .post-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 2rem;
+  }
+
+  .post-hero {
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    background: rgba(255,255,255,0.03);
+  }
+
+  .post-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+
+  .post-body p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.82);
+    margin-bottom: 1.4rem;
+    text-align: left;
+  }
+
+  .post-body .lead-para::first-letter {
+    font-size: 3.2rem;
+    float: left;
+    line-height: 1;
+    margin-right: 0.12em;
+    margin-top: 0.05em;
+    color: var(--accent);
+    font-family: var(--serif);
+  }
+
+  .post-body h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.3rem;
+    margin: 2.5rem 0 1rem;
+    color: var(--text);
+  }
+
+  .post-body blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.2rem;
+    margin: 1.8rem 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  /* ══════════════════════════════════
+     ABOUT VIEW
+  ══════════════════════════════════ */
+  #about-view {
+    display: none;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 4rem 6rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  .about-title {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 1.25;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .about-body {
+    max-width: 620px;
+  }
+
+  .about-body p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.82);
+    margin-bottom: 1.4rem;
+  }
+
+  /* ── Back link ── */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .back-link:hover { color: var(--accent); }
+  .back-link::before { content: '\2190'; }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  footer {
+    text-align: center;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--divider);
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: var(--serif);
+  }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════ */
+  @media (max-width: 768px) {
+    header { padding: 1.2rem 1.5rem; }
+    #index-view { padding: 1.5rem 1.5rem 4rem; }
+    #post-view { padding: 1.5rem 1.5rem 4rem; }
+    .entry {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 2rem 0;
+    }
+    .entry-title { font-size: 1.35rem; }
+    .header-nav { display: none; }
+    .post-title { font-size: 1.6rem; max-width: 100%; }
+    .post-layout {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+
+
+<header>
+  <a class="logo" onclick="showIndex()">Lenora</a>
+  <a class="header-about" onclick="showAbout()">About</a>
+</header>
+
+<!-- ════════════════ INDEX VIEW ════════════════ -->
+<main id="index-view">
+
+  <article class="entry" onclick="showPost(0)">
+    <div class="meta">
+      <div class="meta-author">Lenora</div>
+      <div class="meta-date">Feb 28, 2026</div>
+    </div>
+    <div>
+      <h2 class="entry-title">Dissolution of the Temporal Structure: A Loss of Sovereignty</h2>
+      <p class="entry-desc">Price, Narrative, and the Breakdown of Verification in the Intangible Economy</p>
+    </div>
+  </article>
+
+  <article class="entry" onclick="window.open('https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6223338','_blank')">
+    <div class="meta">
+      <div class="meta-author">Lenora</div>
+      <div class="meta-date">Feb 20, 2026</div>
+    </div>
+    <div>
+      <h2 class="entry-title">Price as a Construct of Time: the Temporal Structure of Contemporary Markets</h2>
+    </div>
+  </article>
+
+</main>
+
+<!-- ════════════════ POST VIEW ════════════════ -->
+<section id="post-view"></section>
+
+<!-- ════════════════ ABOUT VIEW ════════════════ -->
+<section id="about-view">
+  <a class="back-link" onclick="showIndex()">Back to all posts</a>
+  <h1 class="about-title">About</h1>
+  <div class="about-body">
+    <p>X: <a href="https://x.com/EdgeofArete" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">EdgeofArete</a></p>
+    <p>Email: princeofarete&#64;gmail.com</p>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 Lenora. All rights reserved.
+</footer>
+
+<script>
+const posts = [
+  {
+    title: "Dissolution of the Temporal Structure: A Loss of Sovereignty",
+    author: "Lenora",
+    date: "Feb 28, 2026",
+    heroImg: "hero-dissolution.webp",
+    tags: ["Economics", "Markets", "AI", "Theory"],
+    subtitle: "Price, Narrative, and the Breakdown of Verification in the Intangible Economy",
+    body: `<p class="lead-para">On November 30, 2022, OpenAI released ChatGPT. Within weeks, Nvidia\u2019s valuation surged by hundreds of billions of dollars. No new factories had been built. No new chips had been shipped.</p>
+
+<p>On January 27th, 2025, DeepSeek released its R1 AI model, challenging industry perceptions of model performance. Within hours, the market capitalizations of public AI infrastructure companies plunged.</p>
+
+<p>On February 22nd, 2026, Citrini7 released an essay bemoaning the future of software companies. Within days, the S&P 500 plunged nearly 1%, with software companies taking the brunt of the loss.</p>
+
+<p>Considered in isolation, these events seem to be standard market corrections. Markets reprice expectations all the time, especially during periods of market euphoria. Many have ascribed the market\u2019s reaction to events such as the DeepSeek release to the innate biases that have long gripped investor psychology.</p>
+
+<p>With nearly a $1 trillion invested in chips, infrastructure, and energy, the ongoing AI buildout has drawn parallels to the Railroad Bubble of the 1840s. Looking to the likes of Soros and Popper, many have described the preconditions for the bubble phenomenon as endemic to human nature. In Soros\u2019s view, our inherent biases and perceptions shape market fundamentals, driving asset buying and selling in a feedback loop that leads to bubbles and deflation.</p>
+
+<p>Taking these events together, however, something far more unusual appears. The distance between narrative and valuation has all but disappeared. The real answer to this shift lies not in unsubstantiated notions of market implosion or behavioral biases, but in a structural shift in asset composition.</p>
+
+<p>The price system historically functioned through externally imposed verification intervals \u2014 discrete moments where forecasts met physical constraints. The dominance of intangible assets has weakened those intervals by reducing the role of exogenous physical constraints. Prices now increasingly reflect expectations about future revisions of expectations rather than expectations about constrained cashflows.</p>
+
+<h3>The Growing Share of Intangibles in the Economy</h3>
+
+<p>The post-war period through the late 90s and 2000s marked a pronounced transition, as the rise of ICT gave way to the \u201cknowledge economy.\u201d Accompanying this shift was growing investment in \u201cintangible\u201d assets \u2014 in 1975, tangible assets accounted for 83% of S&P 500 market value; by 2025, intangible assets accounted for 92%.</p>
+
+<p>Intangible assets are those that \u201ctypically involve the development of specific products or processes, or are investments in organizational capabilities, creating or strengthening product platforms that position a firm to compete in certain markets.\u201d Per economist Charles Hulten, intangible assets fall into three main categories \u2014 computerized information, scientific and creative property, and economic competencies (firm-specific knowledge). One of the more emblematic categories of these intangible assets is software. Platforms such as Meta and Slack are now embedded in our social fabric, demonstrating this broader economic shift.</p>
+
+<p>Contrary to those who analyze this secular trend from an accounting lens, the critical differentiator between intangible and \u201ctangible\u201d assets is ontological \u2014 it is the presence of physical constraints that enable the prices of these assets to be verified.</p>
+
+<p>Apply this framework to software. From social networks to marketplaces, none of these platforms have an engineering limit analogous to factory throughput. In theory, the platform can scale indefinitely; its valuation stems from user coordination, not from physical capacity. There is no moment when observed output reveals that the plan was wrong about capacity, as software platforms lack veritable \u201cphysical constraints\u201d.</p>
+
+<p>Physical constraints serve as \u201ctemporal anchors\u201d \u2014 continuously verifying asset prices against constraints such as delivery cycles, capacity utilization, and energy costs on a scheduled basis. Intangible assets structurally lack the same magnitude of these temporal anchors as tangible assets do.</p>
+
+<p>Rather than blindly attributing the market\u2019s reactions to events such as the DeepSeek launch to behavioral biases, the real question lies in this structural shift in asset composition. An unexplored presupposition underlying the Austrian School of Economics might bear an answer.</p>
+
+<p>Implicitly considered a social technology by most economists, prices enable information transmission. Friedrich Hayek described price as a function of two primary sources of information: scientific and local. Scientific knowledge pertains to the systematic, articulable knowledge of general rules, laws, and regularities. Localized knowledge refers to information that remains contextual and tacit \u2014 it is acquired at specific moments, revealed through temporal processes, and becomes obsolete as circumstances change.</p>
+
+<p>With scientific knowledge remaining constant, prices adjust only when localized information changes. When novel data enters the localized set, it is assessed against prior expectations, functioning as a \u201cverification\u201d event. If the new information point deviates from the forecast, the price adjusts accordingly. If the information point confirms the forecast, the price holds. For prices to discipline forecasts, discrete \u201cafter\u201d moments must exist in which those forecasts can be verified or falsified by new data points arriving outside this pricing mechanism.</p>
+
+<p>The dominance of intangible assets has collapsed this temporal structure, and with it, the epistemic foundation on which Hayekian coordination depends.</p>
+
+<p>Unlike tangible assets, intangible assets are not disciplined by regular, external verification intervals. Software platforms, model weights, and brand ecosystems do face costs, but these constraints are less frequent, less binding, and more interpretation-sensitive than physical throughput or resource depletion. As intangible assets come to encompass a larger share of the economy, prices cease to represent constrained states of the world \u2014 now encoding expectations about the future revision of expectations themselves.</p>
+
+<p>With these intangible assets lacking a discrete temporal structure, the verification window is indefinitely deferred. The informational environment shifts continuously, and the price of the asset being verified is now an evolving expectational target. The market\u2019s reaction to narrative shifts like that of Citrini7\u2019s article now makes sense \u2014 intangible asset valuation becomes a function of the beliefs about the persistence of the narrative under which these trajectories remain meaningful.</p>
+
+<p>Even seemingly discrete firm-level events \u2014 such as strong earnings, a major partnership, or a successful launch \u2014 now rarely serve as terminal verification of the forecasts embedded in intangible assets. Instead, these events are immediately incorporated into the next round of expectations. For tangible assets, verification terminated the chain. For intangible assets, verification feeds the chain. Without the temporal structure presupposing this pricing process, novel data points do not produce closure \u2014 rather, each data point becomes the basis for reconstructing the forecast itself.</p>
+
+<p>Rather than the behavioral biases that dictated the bubbles of yesteryear, the growing share of intangible assets represents a regime shift.</p>
+
+<p>A pricing regime is characterized by the extent to which it is governed by temporal anchors. A regime dominated by tangible assets is one that sees continuous falsification on a regular schedule. Emblematic entities of this regime include energy companies and commodity producers, whose valuations are persistently disciplined by physical constraints. In contrast, a regime dominated by intangible assets is one that sees expectations revised primarily through interpretation. Examples of entities within this regime include software platforms and frontier AI research labs. In a tangible-based regime, time delivers externally generated \u201cafters\u201d that impose discipline. In an intangible-based regime, time delivers successive rounds of internally generated reinterpretation.</p>
+
+<p>From tulips to dot-coms, markets have always priced narratives. The current regime is structurally different \u2014 they lack the temporal anchors that once disciplined these expectational dynamics.</p>
+
+<h3>Schelling Point Entities</h3>
+
+<p>It is within this regime shift that a novel category of entities has emerged. These entities don\u2019t fall in either category; they straddle the boundary between the two regimes. While part of their valuation is disciplined by external verification events, the other portion is governed by expectational dynamics.</p>
+
+<p>The tangible aspect of their valuation prevents full detachment from the temporal process, leaving some expectations exposed to falsification. The intangible aspect enables them to emit signals that other actors treat as narrative shifts, resulting in the prices of these entities effectively serving as coordination events.</p>
+
+<p>Analogous to the Misesean Regression, initial physical constraints such as engineering constraints and unit economics permit capital formation at scale. This capital, once deployed, finances the accumulation of intangible assets such as ecosystems, brand, and network effects. In practice, these \u201cSchelling Point\u201d entities are both disciplined and disciplining, subject to verification while serving as a coordination point for other entities. External communications and price movements serve as a barometer for market sentiment, both aggregating and emitting the changes in information.</p>
+
+<p>In the context of the AI infrastructure build-out, NVIDIA has emerged as a reference for public and private companies alike \u2014 with its quarterly earnings dictating market sentiment. Hyperscaler capital expenditure forecasts at the likes of Google and Amazon are revised. Valuations of power infrastructure companies, semiconductor equipment companies, and entities several degrees removed from NVIDIA adjust in coordination.</p>
+
+<p>At the same time, NVIDIA faces semiconductor supply constraints. Constraints such as fab capacity allocation at TSMC and delivery schedules for Blackwell chips yield verifiable outcomes within a bounded time horizon. The April 2025 license restrictions triggered a forced $5.5 billion inventory write-down on H20 chips, forcing repricing that existed independently.</p>
+
+<p>As a Schelling Point entity, NVIDIA\u2019s communications and financial metrics generate cross-asset revisions and directionality that other non-schelling-point entities do not. The economic significance of these boundary-point entities lies in these dual characteristics \u2014 partially disciplined by physical constraints, whilst simultaneously serving as a reference point for other actors.</p>
+
+<p>During NVIDIA\u2019s May 2024 guidance, investor materials introduced the framing of \u201cAI factories\u201d and emphasized inference-driven demand as a distinct growth vector. In subsequent quarters, hyperscaler earnings calls adopted NVIDIA\u2019s framing. Rather than prior metrics, capital expenditure was increasingly justified in terms of GPU throughput and inference capacity. By late 2025, when Meta guided for $115\u2013135 billion in 2026 capital expenditure and Alphabet guided for $175\u2013185 billion, these figures were presented and interpreted through a framework that NVIDIA\u2019s signal emissions had made salient a year ago. Through its external communications, NVIDIA structured the interpretive categories that in turn constituted the information environment for subsequent pricing.</p>
+
+<h3>Metastability</h3>
+
+<p>The resulting system structure is non-classical. The system now coordinates around an endogenously produced reference point whose relationship to external fundamentals is contingent. Information is continuously generated and filtered through the same channels; perturbations in the information environment are incorporated without producing system-wide resolution.</p>
+
+<p>Targets are revised, horizons are shifted, and evaluation criteria migrate. In simpler terms, the system preserves coherence by continuously amending the standards of coherence. This is metastability in the thermodynamic sense \u2014 a locally stable configuration that is not the global minima, maintained by barriers to transition rather than by convergence to a true equilibrium.</p>
+
+<p>Coordination increasingly proceeds through interpretive alignment rather than constraint-based falsification. The drastic market reaction to the release of the DeepSeek model or the Citrini7 article wasn\u2019t driven by behavioral biases, but by a shift in market perception of the information environment. Coordination continues through mutual orientation rather than sequential falsification, with the system preserving coherence without ever producing a terminal verification event. As resynchronization repeats around the Schelling points, the mismatch between verificational-era institutions and focal-era dynamics widens.</p>
+
+<h3>A Loss of Sovereignty</h3>
+
+<p>Beyond pricing mechanisms and information transmissions, the capital markets occupy a vital position in our society. Corporations use mergers and acquisitions to bolster their strategy and diversify their balance sheets. In 2025, global M&A deal value reached $4.8 trillion (Bain), with nearly half of strategic technology deal value explicitly citing AI benefits \u2014 in some cases borrowing the terminology and guidance numbers set by the focal entities themselves.</p>
+
+<p>Retail investors utilize the markets as a source of wealth preservation. Nearly 62% of Americans own stock directly or through retirement accounts (Gallup, 2025). US higher education endowments hold around half their portfolio (NACUBO 2024) in equity strategies in order to meet their fiduciary responsibilities, with 48% of endowment spending going directly to student financial aid.</p>
+
+<p>Pension funds hold $29.6 trillion in total financial assets (Federal Reserve, Q3 2025), with public pensions alone serving nearly 25 million active members and annuitants while allocating roughly 44% of their capital to public equities (NASRA, 2024). As required by their mandates, each of these institutions is fiduciarily obligated to treat prices as verification events. The dissolution of the temporal structure now removes the conditions under which these obligations can be met.</p>
+
+<p>Despite the gravity of this new paradigm, our institutions remain structurally insufficient to re-anchor the markets \u2014 their capabilities inherently presupposed by the same temporal structure that has dissolved in our new regime.</p>
+
+<p>In response to the lax risk parameters and opaque reporting that led to the Financial Crisis of 2008, much of the regulation in the years following sought to expand disclosure requirements. The SEC\u2019s disclosure framework was constructed on the assumption that material information exists in a form that could be identified, verified, and communicated to investors on a periodic basis. These efforts hold salience in assets facing physical constraints \u2014 a factory\u2019s utilization rate or a mine\u2019s reserves. For intangible assets, however, the notion of \u201cdisclosure requirements\u201d loses its epistemic grounding.</p>
+
+<p>While seldom utilized, circuit breakers and position limits are designed to arrest erratic price movements that have diverged from a recoverable fundamental value. The assumption underpinning these tools is that volatility represents temporary dislocation. If trading is halted, rational assessment can resume, and prices will converge back to some reference level. In the focal regime, however, there is no stable reference level independent of the coordination process itself.</p>
+
+<p>Frameworks utilized to dictate ethical standards lose salience. Modern portfolio theory, the theoretical framework utilized to govern risk parameters for pensions, endowments, and institutional investors, decomposes risk into factors based on historical price performance. Portfolio allocation then optimizes these risk factors to meet fiduciary responsibility standards. With the dissolution of the temporal structure, however, the very risk parameters utilized to meet these responsibilities become endogenous to the same expectational dynamics as the portfolio. Correlations measured during periods of stable verification reveal nothing about correlations during a narrative phase transition.</p>
+
+<p>Our current institutions treat market dysfunction as a product of informational asymmetry or behavioral distortion \u2014 both of which assume that a correctable relationship to underlying fundamentals still exists. With a change in the structural composition of assets, the dissolution of the temporal structure now reveals a structural deficiency that neither diagnosis can reach.</p>
+
+<p>It is because the deficiency is structural rather than behavioral or informational that current dynamics cannot be simply resolved by reform or action within the existing regulatory order. In Carl Schmitt\u2019s terminology, the system has now reached a point where it has exceeded the normative parameters of its own jurisprudence.</p>
+
+<p>These deficiencies compound. In this new regime where the risk parameters are endogenous to the same expectational dynamics as the portfolio itself, our existing regulatory tools systematically reinforce these patterns. The normative order now produces the conditions of its own crisis.</p>
+
+<h3>The FSOC of Tomorrow</h3>
+
+<p>After the financial crisis of 2008, the Dodd-Frank Act of 2010 established the Financial Stability Oversight Council (FSOC). Charged with monitoring \u201csystematically important institutions,\u201d the FSOC was a collaborative body composed of the heads of the major financial regulators. In light of the poorly constructed risk parameters and capital requirements that led to the implosion of the American real estate market, the entity was established to force select financial institutions to be regulated in anticipation of a second financial crisis.</p>
+
+<p>The FSOC was established with the intent of serving as this sovereign entity, capable of identifying the widening cracks in the system and enforcing pricing discipline. However, the tools that it utilizes to monitor changes remain calibrated to a regime dominated by tangible assets \u2014 leverage ratios, credit ratings, counterparty exposure.</p>
+
+<p>The FSOC of tomorrow is one attuned to the interpretive dependency that cascades throughout the system, capable of mapping the frameworks communicated by the boundary entities and understanding the system\u2019s locally stable configuration and the constraints that nominally anchor it. In practice, such an entity would possess operational license, not mere oversight \u2014 the ability to directly intervene in the markets to reintroduce exogenous verification and prevent coordination from collapsing into a single reference point.</p>`
+  }
+];
+
+function showPost(index) {
+  const post = posts[index];
+  const tagsHTML = post.tags.map(t => `<a>${t}</a>`).join('<span class="sep">,&nbsp;</span>');
+
+  document.getElementById('post-view').innerHTML = `
+    <a class="back-link" onclick="showIndex()">Back to all posts</a>
+    <h1 class="post-title">${post.title}</h1>
+    <div class="post-layout">
+      <div class="post-sidebar">
+        <div class="meta-author">${post.author}</div>
+        <div class="meta-date">${post.date}</div>
+        <div class="post-tags">${tagsHTML}</div>
+      </div>
+      <div class="post-body">
+        <p class="post-subtitle">${post.subtitle}</p>
+        <div class="post-hero">
+          <img src="${post.heroImg}" alt="${post.title}">
+        </div>
+        ${post.body}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('index-view').style.display = 'none';
+  document.getElementById('about-view').style.display = 'none';
+  document.getElementById('post-view').style.display = 'block';
+  document.getElementById('post-view').style.animation = 'none';
+  void document.getElementById('post-view').offsetHeight;
+  document.getElementById('post-view').style.animation = 'fadeIn 0.5s ease forwards';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showIndex() {
+  document.getElementById('post-view').style.display = 'none';
+  document.getElementById('about-view').style.display = 'none';
+  document.getElementById('index-view').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showAbout() {
+  document.getElementById('index-view').style.display = 'none';
+  document.getElementById('post-view').style.display = 'none';
+  document.getElementById('about-view').style.display = 'block';
+  document.getElementById('about-view').style.animation = 'none';
+  void document.getElementById('about-view').offsetHeight;
+  document.getElementById('about-view').style.animation = 'fadeIn 0.5s ease forwards';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
